@@ -42,8 +42,7 @@
 //!
 //! # Example
 //! ```
-//! let mut runtime = tokio::runtime::Builder::new()
-//!		.basic_scheduler()
+//! let mut runtime = tokio::runtime::Builder::new_current_thread()
 //!		.enable_io()
 //!		.build()
 //!		.unwrap();
