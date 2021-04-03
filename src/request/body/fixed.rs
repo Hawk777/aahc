@@ -53,7 +53,7 @@ impl<Socket: AsyncWrite + ?Sized> AsyncWrite for Send<'_, Socket> {
 		buf: &[u8],
 	) -> Poll<Result<usize>> {
 		// Sanity check that the body doesn’t overflow.
-		debug_assert!(buf.len() as u64 <= self.remaining, "Attempted to write {} bytes, but content-length indicates only {} should be left to send", buf.len(), self.remaining);
+		debug_assert!(buf.len() as u64 <= self.remaining, "Attempted to write {} bytes, but Content-Length indicates only {} should be left to send", buf.len(), self.remaining);
 
 		// Write to the underlying socket.
 		let bytes_written = ready!(self.socket.as_mut().poll_write(cx, buf))?;
@@ -67,7 +67,7 @@ impl<Socket: AsyncWrite + ?Sized> AsyncWrite for Send<'_, Socket> {
 		bufs: &[std::io::IoSlice<'_>],
 	) -> Poll<Result<usize>> {
 		// Sanity check that the body doesn’t overflow.
-		debug_assert!(bufs.iter().map(|elt| elt.len() as u64).sum::<u64>() <= self.remaining, "Attempted to write {} bytes, but content-length indicates only {} should be left to send", bufs.iter().map(|elt| elt.len() as u64).sum::<u64>(), self.remaining);
+		debug_assert!(bufs.iter().map(|elt| elt.len() as u64).sum::<u64>() <= self.remaining, "Attempted to write {} bytes, but Content-Length indicates only {} should be left to send", bufs.iter().map(|elt| elt.len() as u64).sum::<u64>(), self.remaining);
 
 		// Write to the underlying socket.
 		let bytes_written = ready!(self.socket.as_mut().poll_write_vectored(cx, bufs))?;

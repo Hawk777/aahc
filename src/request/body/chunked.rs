@@ -55,7 +55,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 	/// The application must send at least `length` bytes before finishing the request. However, it
 	/// is permitted to send *more* than `length` bytes.
 	///
-	/// For a fixed-length request (e.g. one whose length was set by a `content-length` header),
+	/// For a fixed-length request (e.g. one whose length was set by a `Content-Length` header),
 	/// this function does nothing.
 	///
 	/// For a chunked request, this function sets the size of the next chunk; this allows a large

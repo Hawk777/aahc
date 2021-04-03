@@ -13,7 +13,7 @@ use std::task::{Context, Poll};
 /// parameter is the type of transport-layer socket over which the HTTP request will be sent.
 #[derive(Debug, Eq, PartialEq)]
 enum Mode<'socket, Socket: AsyncWrite + ?Sized> {
-	/// The request body has a fixed size given by a `content-length` header or by the inherent
+	/// The request body has a fixed size given by a `Content-Length` header or by the inherent
 	/// properties of the request (e.g. a `HEAD` request always having a zero-length body).
 	Fixed(fixed::Send<'socket, Socket>),
 
@@ -78,9 +78,9 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 	///
 	/// The application must send at least `length` bytes before finishing the request. However, it
 	/// is permitted to send *more* than `length` bytes (subject to any other constraints, such as
-	/// not sending more than specified in the `content-length` header).
+	/// not sending more than specified in the `Content-Length` header).
 	///
-	/// For a fixed-length request (e.g. one whose length was set by a `content-length` header),
+	/// For a fixed-length request (e.g. one whose length was set by a `Content-Length` header),
 	/// this function does nothing.
 	///
 	/// For a chunked request, this function sets the size of the next chunk; this allows a large

@@ -180,7 +180,7 @@ pub async fn receive<'socket, 'headers, Socket: AsyncBufRead + ?Sized>(
 		headers: resp.headers,
 	};
 
-	// See if we have content-length and/or transfer-encoding headers.
+	// See if we have Content-Length and/or Transfer-Encoding headers.
 	let content_length = get_content_length(&resp)?;
 	let chunked = is_chunked(&resp)?;
 
@@ -304,11 +304,11 @@ fn headers_length(buffer: &[u8]) -> Option<usize> {
 	None
 }
 
-/// Scans the headers and determine whether the `transfer-encoding` header is present and indicates
+/// Scans the headers and determine whether the `Transfer-Encoding` header is present and indicates
 /// that chunked encoding is in use for the response body.
 ///
-/// If the `transfer-encoding` header appears and indicates chunked encoding, returns `true`. If
-/// the `transfer-encoding` header does not appear, returns `false`.
+/// If the `Transfer-Encoding` header appears and indicates chunked encoding, returns `true`. If
+/// the `Transfer-Encoding` header does not appear, returns `false`.
 ///
 /// # Errors
 /// This function returns an error of kind [`InvalidData`](std::io::ErrorKind::InvalidData) under
@@ -422,7 +422,7 @@ mod test {
 	fn test_get_content_length() {
 		use crate::error::BadContentLength;
 
-		// Basic headers including content-length.
+		// Basic headers including Content-Length.
 		assert_eq!(
 			get_content_length(&Response {
 				minor_version: 1,
@@ -437,7 +437,7 @@ mod test {
 			Some(1234)
 		);
 
-		// Basic headers without content-length.
+		// Basic headers without Content-Length.
 		assert_eq!(
 			get_content_length(&Response {
 				minor_version: 1,
@@ -493,7 +493,7 @@ mod test {
 			}),
 		);
 
-		// Invalid: multiple content-length headers.
+		// Invalid: multiple Content-Length headers.
 		expect_invalid_data(
 			InvalidData::MultipleContentLengths,
 			&get_content_length(&Response {
@@ -541,7 +541,7 @@ mod test {
 	/// Tests the is_chunked function.
 	#[test]
 	fn test_is_chunked() {
-		// Basic headers including transfer-encoding: chunked.
+		// Basic headers including Transfer-Encoding: chunked.
 		assert_eq!(
 			is_chunked(&Response {
 				minor_version: 1,
@@ -556,7 +556,7 @@ mod test {
 			true
 		);
 
-		// Basic headers without transfer-encoding.
+		// Basic headers without Transfer-Encoding.
 		assert_eq!(
 			is_chunked(&Response {
 				minor_version: 1,
@@ -571,7 +571,7 @@ mod test {
 			false
 		);
 
-		// An unsupported transfer-encoding.
+		// An unsupported Transfer-Encoding.
 		expect_invalid_data(
 			InvalidData::NotChunked,
 			&is_chunked(&Response {
@@ -585,7 +585,7 @@ mod test {
 			}),
 		);
 
-		// Invalid: multiple transfer-encoding headers.
+		// Invalid: multiple Transfer-Encoding headers.
 		expect_invalid_data(
 			InvalidData::MultipleTransferEncodings,
 			&is_chunked(&Response {
