@@ -13,7 +13,7 @@ pub mod headers;
 /// then passed, unmodified, when the application begins receiving the response.
 ///
 /// In the simple case of straight-line code with no pipelining, the object can simply be
-/// immediately passed into [`receive_headers`](response::headers::receive). More complex
+/// immediately passed into [`receive_headers`](super::response::headers::receive). More complex
 /// situations may call for more complex handling; for example, if pipelining is in use, the
 /// application likely needs to maintain a FIFO queue of `Metadata` structures, each being pushed
 /// to the queue when the request finishes and popped from the queue when ready to read the
