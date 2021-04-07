@@ -161,11 +161,8 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 
 				State::HeaderLF(chunk_size) => {
 					if ready!(self.as_mut().poll_read_byte(cx))? == b'\n' {
-						self.state = if let Some(n) = NonZeroU64::new(chunk_size) {
-							State::Data(n)
-						} else {
-							State::FinalCR
-						};
+						self.state =
+							NonZeroU64::new(chunk_size).map_or(State::FinalCR, State::Data);
 					} else {
 						break Err(BadChunkHeader::Newline.into()).into();
 					}
