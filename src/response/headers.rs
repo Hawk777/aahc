@@ -143,7 +143,7 @@ pub async fn receive<'socket, 'headers, Socket: AsyncBufRead + ?Sized>(
 			// The server sent Switching Protocols, which we do not support.
 			return Err(InvalidData::SwitchingProtocols.into());
 		}
-		if 100 <= status_code && status_code <= 199 {
+		if (100..=199).contains(&status_code) {
 			// This is an informational header. Discard it and wait for the real header.
 			buffer_used = 0;
 			continue;

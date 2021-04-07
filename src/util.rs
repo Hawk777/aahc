@@ -2,9 +2,9 @@ pub mod io;
 
 /// Checks whether a byte is a `tchar` (token character).
 pub fn is_tchar(b: u8) -> bool {
-	(b'A' <= b && b <= b'Z')
-		|| (b'a' <= b && b <= b'z')
-		|| (b'0' <= b && b <= b'9')
+	(b'A'..=b'Z').contains(&b)
+		|| (b'a'..=b'z').contains(&b)
+		|| (b'0'..=b'9').contains(&b)
 		|| b == b'!'
 		|| b == b'#'
 		|| b == b'$'
@@ -51,7 +51,7 @@ pub fn is_field_value(value: &[u8]) -> bool {
 ///
 /// This check is relaxed and does not check the full requirements for path validity.
 pub fn is_request_target_char(b: u8) -> bool {
-	0x21_u8 <= b && b <= 0x7F_u8
+	(0x21_u8..=0x7F_u8).contains(&b)
 }
 
 /// Checks whether a string is a `request-target`.
