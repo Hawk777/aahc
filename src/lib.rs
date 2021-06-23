@@ -12,15 +12,13 @@
 	missing_debug_implementations,
 	missing_docs,
 	missing_doc_code_examples,
-	// Disabled due to <https://github.com/rust-lang/rust/issues/69952> and
-	// <https://github.com/rust-lang/rust/issues/77217>.
+	// Disabled due to <https://github.com/rust-lang/rust/issues/69952>.
 	// single_use_lifetimes,
 	trivial_casts,
 	trivial_numeric_casts,
 	unused_crate_dependencies,
 	unused_import_braces,
-	// Disabled due to <https://github.com/rust-lang/rust/issues/77217>.
-	// unused_lifetimes,
+	unused_lifetimes,
 	unused_qualifications,
 	unused_results
 )]
