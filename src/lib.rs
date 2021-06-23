@@ -26,6 +26,8 @@
 // Disabled because we frequently mix u64 and usize, where the former is used for message body
 // lengths and the latter for in-memory buffer sizes.
 #![allow(clippy::cast_possible_truncation)]
+// Disabled due to personal preference.
+#![allow(clippy::redundant_else)]
 #![allow(clippy::tabs_in_doc_comments)]
 
 //! Agnostic Asynchronous HTTP Client
