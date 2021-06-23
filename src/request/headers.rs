@@ -104,7 +104,7 @@ pub async fn send<'socket, Socket: futures_io::AsyncWrite + ?Sized>(
 			debug_assert!(
 				std::str::from_utf8(header.value)
 					.ok()
-					.and_then(|v| u64::from_str_radix(v, 10).ok())
+					.and_then(|v| v.parse::<u64>().ok())
 					.is_some(),
 				"Request Content-Length {:?} is not a non-negative integer",
 				header.value
@@ -153,7 +153,7 @@ pub async fn send<'socket, Socket: futures_io::AsyncWrite + ?Sized>(
 			.find(|h| h.name.eq_ignore_ascii_case("Content-Length"));
 		let length = h
 			.and_then(|h| std::str::from_utf8(h.value).ok())
-			.and_then(|v| u64::from_str_radix(v, 10).ok())
+			.and_then(|v| v.parse::<u64>().ok())
 			.unwrap_or(0);
 		Ok(Send::new_fixed(socket, metadata, length))
 	}

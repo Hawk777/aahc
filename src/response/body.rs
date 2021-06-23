@@ -14,7 +14,7 @@ use std::task::{Context, Poll};
 #[derive(Debug)]
 enum Impl<'socket, Socket: AsyncRead + ?Sized> {
 	Chunked(chunked::Receive<'socket, Socket>),
-	EOF(eof::Receive<'socket, Socket>),
+	Eof(eof::Receive<'socket, Socket>),
 	Fixed(fixed::Receive<'socket, Socket>),
 }
 
@@ -52,7 +52,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 	/// The `socket` parameter is the underlying socket to read from.
 	pub(crate) fn new_eof(socket: Pin<&'socket mut Socket>) -> Self {
 		Self {
-			body_impl: Impl::EOF(eof::Receive::new(socket)),
+			body_impl: Impl::Eof(eof::Receive::new(socket)),
 			persistent: false,
 		}
 	}
@@ -82,7 +82,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 		self.persistent
 			&& match self.body_impl {
 				Impl::Chunked(chunked) => chunked.finish(),
-				Impl::EOF(_) => false,
+				Impl::Eof(_) => false,
 				Impl::Fixed(fixed) => fixed.finish(),
 			}
 	}
@@ -96,7 +96,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> AsyncRead for Receive<'socket, Socket>
 	) -> Poll<Result<usize>> {
 		match self.body_impl {
 			Impl::Chunked(ref mut chunked) => Pin::new(chunked).poll_read(cx, buf),
-			Impl::EOF(ref mut eof) => Pin::new(eof).poll_read(cx, buf),
+			Impl::Eof(ref mut eof) => Pin::new(eof).poll_read(cx, buf),
 			Impl::Fixed(ref mut fixed) => Pin::new(fixed).poll_read(cx, buf),
 		}
 	}
@@ -108,7 +108,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> AsyncRead for Receive<'socket, Socket>
 	) -> Poll<Result<usize>> {
 		match self.body_impl {
 			Impl::Chunked(ref mut chunked) => Pin::new(chunked).poll_read_vectored(cx, bufs),
-			Impl::EOF(ref mut eof) => Pin::new(eof).poll_read_vectored(cx, bufs),
+			Impl::Eof(ref mut eof) => Pin::new(eof).poll_read_vectored(cx, bufs),
 			Impl::Fixed(ref mut fixed) => Pin::new(fixed).poll_read_vectored(cx, bufs),
 		}
 	}
