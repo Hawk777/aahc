@@ -3,7 +3,7 @@
 	future_incompatible,
 	nonstandard_style,
 	rust_2018_idioms,
-	rustdoc,
+	rustdoc::all,
 	unused
 )]
 #![warn(
