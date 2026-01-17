@@ -35,7 +35,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 	}
 }
 
-impl<'socket, Socket: AsyncRead + ?Sized> AsyncRead for Receive<'socket, Socket> {
+impl<Socket: AsyncRead + ?Sized> AsyncRead for Receive<'_, Socket> {
 	fn poll_read(
 		mut self: Pin<&mut Self>,
 		cx: &mut Context<'_>,

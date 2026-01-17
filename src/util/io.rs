@@ -227,9 +227,9 @@ impl<T: AsyncWrite + ?Sized> Future for WriteAllFuture<'_, T> {
 
 /// Issues repeated reads until the caller-provided buffer is full.
 #[cfg(test)]
-pub async fn read_all<'buffer, Source: AsyncRead + ?Sized>(
+pub async fn read_all<Source: AsyncRead + ?Sized>(
 	mut src: Pin<&mut Source>,
-	mut buffer: &'buffer mut [u8],
+	mut buffer: &mut [u8],
 ) -> Result<()> {
 	while !buffer.is_empty() {
 		let bytes_read = src.as_mut().read(buffer).await?;
