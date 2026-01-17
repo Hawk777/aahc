@@ -402,11 +402,8 @@ mod test {
 				.get_ref()
 				.expect("Expected error source, got None");
 			let downcasted = source.downcast_ref::<InvalidData>();
-			let downcasted = match downcasted {
-				Some(x) => x,
-				None => {
-					panic!("Expected error source to be an InvalidData instance, got {source:?}")
-				}
+			let Some(downcasted) = downcasted else {
+				panic!("Expected error source to be an InvalidData instance, got {source:?}")
 			};
 			assert!(
 				_cb(downcasted),
