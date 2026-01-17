@@ -36,6 +36,7 @@ impl<R: AsyncBufRead + ?Sized> AsyncBufReadExt for R {}
 /// A set of additional utility functions available on any type implementing `AsyncRead`.
 pub trait AsyncReadExt: AsyncRead {
 	/// Reads data to a caller-provided buffer.
+	#[cfg(test)]
 	fn read<'buffer>(
 		self: Pin<&mut Self>,
 		buffer: &'buffer mut [u8],
@@ -47,6 +48,7 @@ pub trait AsyncReadExt: AsyncRead {
 	}
 
 	/// Reads data to multiple caller-provided buffers.
+	#[cfg(test)]
 	fn read_vectored<'buffers>(
 		self: Pin<&mut Self>,
 		buffers: &'buffers mut [IoSliceMut<'buffers>],
@@ -58,6 +60,7 @@ pub trait AsyncReadExt: AsyncRead {
 	}
 
 	/// Performs a vectored read with an additional length limit.
+	#[cfg(test)]
 	fn read_vectored_bounded<'bufs>(
 		self: Pin<&mut Self>,
 		bufs: &'bufs mut [IoSliceMut<'bufs>],
@@ -154,12 +157,14 @@ impl<
 }
 
 /// A future that reads from an `AsyncRead` into a single caller-provided buffer.
+#[cfg(test)]
 #[derive(Debug)]
 pub struct ReadFuture<'source, 'buffer, Source: AsyncRead + ?Sized> {
 	source: Pin<&'source mut Source>,
 	buffer: &'buffer mut [u8],
 }
 
+#[cfg(test)]
 impl<Source: AsyncRead + ?Sized> Future for ReadFuture<'_, '_, Source> {
 	type Output = Result<usize>;
 
@@ -170,12 +175,14 @@ impl<Source: AsyncRead + ?Sized> Future for ReadFuture<'_, '_, Source> {
 }
 
 /// A future that reads from an `AsyncRead` into a collection of caller-provided buffers.
+#[cfg(test)]
 #[derive(Debug)]
 pub struct ReadVectoredFuture<'source, 'buffers, Source: AsyncRead + ?Sized> {
 	source: Pin<&'source mut Source>,
 	buffers: &'buffers mut [IoSliceMut<'buffers>],
 }
 
+#[cfg(test)]
 impl<Source: AsyncRead + ?Sized> Future for ReadVectoredFuture<'_, '_, Source> {
 	type Output = Result<usize>;
 
@@ -187,6 +194,7 @@ impl<Source: AsyncRead + ?Sized> Future for ReadVectoredFuture<'_, '_, Source> {
 
 /// A future that reads from an `AsyncRead` into a collection of caller-provided buffers, with an
 /// additional length limit.
+#[cfg(test)]
 #[derive(Debug)]
 pub struct ReadVectoredBoundedFuture<'source, 'bufs, Source: AsyncRead + ?Sized> {
 	source: Pin<&'source mut Source>,
@@ -194,6 +202,7 @@ pub struct ReadVectoredBoundedFuture<'source, 'bufs, Source: AsyncRead + ?Sized>
 	limit: u64,
 }
 
+#[cfg(test)]
 impl<Source: AsyncRead + ?Sized> Future for ReadVectoredBoundedFuture<'_, '_, Source> {
 	type Output = Result<usize>;
 
