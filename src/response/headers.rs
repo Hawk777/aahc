@@ -539,7 +539,7 @@ mod test {
 	#[test]
 	fn is_chunked_all() {
 		// Basic headers including Transfer-Encoding: chunked.
-		assert_eq!(
+		assert!(
 			is_chunked(&Response {
 				minor_version: 1,
 				status: 200,
@@ -549,13 +549,12 @@ mod test {
 					value: b"chunked"
 				}]
 			})
-			.unwrap(),
-			true
+			.unwrap()
 		);
 
 		// Basic headers without Transfer-Encoding.
-		assert_eq!(
-			is_chunked(&Response {
+		assert!(
+			!is_chunked(&Response {
 				minor_version: 1,
 				status: 200,
 				reason: "OK",
@@ -565,7 +564,6 @@ mod test {
 				}]
 			})
 			.unwrap(),
-			false
 		);
 
 		// An unsupported Transfer-Encoding.
