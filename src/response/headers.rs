@@ -1,6 +1,6 @@
+use crate::Header;
 use crate::error::InvalidData;
 use crate::response::body::Receive;
-use crate::Header;
 use futures_io::AsyncBufRead;
 use std::io::Result;
 use std::pin::Pin;

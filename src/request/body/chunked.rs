@@ -109,8 +109,6 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 		cx: &mut Context<'_>,
 		length: NonZeroUsize,
 	) -> Poll<Result<NonZeroUsize>> {
-		use std::convert::TryInto as _;
-
 		// Start a chunk if we’re not currently inside one.
 		if self.chunk_bytes_left == 0 {
 			use std::io::Write as _;
@@ -183,9 +181,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 		struct SendHeaderFooterDataFuture<'socket, 'body, Socket: AsyncWrite + ?Sized> {
 			body: &'body mut Send<'socket, Socket>,
 		}
-		impl<Socket: AsyncWrite + ?Sized> std::future::Future
-			for SendHeaderFooterDataFuture<'_, '_, Socket>
-		{
+		impl<Socket: AsyncWrite + ?Sized> Future for SendHeaderFooterDataFuture<'_, '_, Socket> {
 			type Output = Result<()>;
 			fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
 				self.body.poll_send_header_footer(cx)
@@ -214,10 +210,11 @@ impl<Socket: AsyncWrite + ?Sized> AsyncWrite for Send<'_, Socket> {
 			let to_write: NonZeroUsize = ready!(this.pre_write(cx, buf_len))?;
 
 			// Send the number of bytes that pre_write said we could.
-			let bytes_written = ready!(this
-				.socket
-				.as_mut()
-				.poll_write(cx, &buf[..(to_write.get())]))?;
+			let bytes_written = ready!(
+				this.socket
+					.as_mut()
+					.poll_write(cx, &buf[..(to_write.get())])
+			)?;
 
 			// Close up the write.
 			this.post_write(bytes_written);
@@ -249,10 +246,11 @@ impl<Socket: AsyncWrite + ?Sized> AsyncWrite for Send<'_, Socket> {
 			let bytes_written = if first_buffer.len() >= to_write.get() {
 				// The first IoSlice alone covers at least to_write bytes. Write only that slice,
 				// or part of it if it’s larger than to_write.
-				ready!(this
-					.socket
-					.as_mut()
-					.poll_write(cx, &first_buffer[..to_write.get()]))?
+				ready!(
+					this.socket
+						.as_mut()
+						.poll_write(cx, &first_buffer[..to_write.get()])
+				)?
 			} else {
 				// The first IoSlice alone is smaller than to_write. Do a vectored write. To avoid
 				// modifying any of the IoSlices, choose only enough IoSlices to add up to
@@ -269,10 +267,11 @@ impl<Socket: AsyncWrite + ?Sized> AsyncWrite for Send<'_, Socket> {
 					.find(|elt| elt.1)
 					.unwrap_or((bufs.len(), false))
 					.0;
-				ready!(this
-					.socket
-					.as_mut()
-					.poll_write_vectored(cx, &bufs[..buf_count]))?
+				ready!(
+					this.socket
+						.as_mut()
+						.poll_write_vectored(cx, &bufs[..buf_count])
+				)?
 			};
 
 			// Close up the write.

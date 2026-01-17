@@ -63,7 +63,7 @@ pub async fn send<'socket, Socket: futures_io::AsyncWrite + ?Sized>(
 	use crate::util::is_token;
 
 	// Sanity check method.
-	debug_assert!(is_token(method), "Request method {} is not a token", method);
+	debug_assert!(is_token(method), "Request method {method} is not a token");
 	debug_assert!(
 		method != "CONNECT",
 		"Request method CONNECT is not supported"

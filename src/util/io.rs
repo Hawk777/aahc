@@ -1,6 +1,5 @@
 use futures_core::ready;
 use futures_io::{AsyncBufRead, AsyncRead, AsyncWrite};
-use std::future::Future;
 use std::io::{IoSliceMut, Result};
 use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -140,10 +139,10 @@ pub struct ReadBufFuture<
 }
 
 impl<
-		Source: AsyncBufRead + ?Sized,
-		CallbackReturn,
-		Callback: FnOnce(&[u8]) -> (usize, CallbackReturn) + Unpin,
-	> Future for ReadBufFuture<'_, Source, CallbackReturn, Callback>
+	Source: AsyncBufRead + ?Sized,
+	CallbackReturn,
+	Callback: FnOnce(&[u8]) -> (usize, CallbackReturn) + Unpin,
+> Future for ReadBufFuture<'_, Source, CallbackReturn, Callback>
 {
 	type Output = Result<CallbackReturn>;
 

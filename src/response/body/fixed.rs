@@ -65,10 +65,11 @@ impl<Socket: AsyncRead + ?Sized> AsyncRead for Receive<'_, Socket> {
 		} else {
 			use crate::util::io::AsyncReadExt as _;
 			let remaining = self.remaining;
-			let bytes_read = ready!(self
-				.socket
-				.as_mut()
-				.poll_read_vectored_bounded(cx, bufs, remaining))?;
+			let bytes_read = ready!(
+				self.socket
+					.as_mut()
+					.poll_read_vectored_bounded(cx, bufs, remaining)
+			)?;
 			if bytes_read == 0 {
 				return Err(ErrorKind::UnexpectedEof.into()).into();
 			}

@@ -106,9 +106,9 @@ mod response;
 mod util;
 
 pub use httparse::Header;
+pub use request::Metadata;
 pub use request::body::Send as SendBody;
 pub use request::headers::send as send_headers;
-pub use request::Metadata;
 pub use response::body::Receive as ReceiveBody;
-pub use response::headers::receive as receive_headers;
 pub use response::headers::Response;
+pub use response::headers::receive as receive_headers;

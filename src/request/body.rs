@@ -189,7 +189,7 @@ mod test {
 		data: &'a [u8],
 	}
 
-	impl<T: AsyncWrite + ?Sized> std::future::Future for WriteFuture<'_, T> {
+	impl<T: AsyncWrite + ?Sized> Future for WriteFuture<'_, T> {
 		type Output = std::io::Result<usize>;
 
 		fn poll(
