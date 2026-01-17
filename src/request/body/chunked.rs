@@ -233,7 +233,8 @@ impl<Socket: AsyncWrite + ?Sized> AsyncWrite for Send<'_, Socket> {
 		// Add up the total number of bytes to send.
 		let total_length = bufs
 			.iter()
-			.map(|elt| elt.len())
+			.map(std::ops::Deref::deref)
+			.map(<[u8]>::len)
 			.fold(0_usize, usize::saturating_add);
 		if let Some(total_length) = NonZeroUsize::new(total_length) {
 			let this = Pin::into_inner(self);
