@@ -3,6 +3,7 @@ name = "aahc"
 version = "0.1.0"
 authors = ["Christopher Head"]
 edition = "2018"
+rust-version = "1.70"
 resolver = "2"
 description = "Asynchronous, zero-allocation HTTP client that is agnostic to choice of executor"
 repository = "https://gitlab.com/Hawk777/aahc"

@@ -122,7 +122,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 			// If we have a hint, use the maximum of the write size and the hint; if we don’t have
 			// a hint, just use the write size. Destroy (take) the hint, since it only applies to
 			// this chunk, not any future chunks.
-			let length64 = NonZeroU64::new(length.get().try_into().unwrap_or(u64::MAX)).unwrap();
+			let length64 = length.try_into().unwrap_or(NonZeroU64::MAX);
 			let chunk_size = self
 				.next_chunk_size
 				.take()
