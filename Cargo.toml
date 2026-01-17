@@ -50,7 +50,6 @@ tabs_in_doc_comments = "allow"
 
 [lints.rust]
 # General lint groups to enable.
-future_incompatible = { level = "warn", priority = -1 }
 nonstandard_style = { level = "warn", priority = -1 }
 rust_2018_idioms = { level = "warn", priority = -1 }
 unused = { level = "warn", priority = -1 }
