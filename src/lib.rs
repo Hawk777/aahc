@@ -1,35 +1,3 @@
-#![forbid(unsafe_code)]
-#![warn(
-	future_incompatible,
-	nonstandard_style,
-	rust_2018_idioms,
-	rustdoc::all,
-	unused
-)]
-#![warn(
-	deprecated_in_future,
-	rustdoc::missing_crate_level_docs,
-	missing_debug_implementations,
-	missing_docs,
-	single_use_lifetimes,
-	trivial_casts,
-	trivial_numeric_casts,
-	unused_crate_dependencies,
-	unused_import_braces,
-	unused_lifetimes,
-	unused_qualifications,
-	unused_results
-)]
-#![warn(clippy::pedantic, clippy::cargo)]
-// Disabled because we frequently mix u64 and usize, where the former is used for message body
-// lengths and the latter for in-memory buffer sizes.
-#![allow(clippy::cast_possible_truncation)]
-// Disabled due to <https://github.com/rust-lang/rust-clippy/issues/7271>.
-#![allow(clippy::needless_lifetimes)]
-// Disabled due to personal preference.
-#![allow(clippy::redundant_else)]
-#![allow(clippy::tabs_in_doc_comments)]
-
 //! Agnostic Asynchronous HTTP Client
 //!
 //! This crate is an HTTP/1.1 client library that does no dynamic memory allocation, is not tied to

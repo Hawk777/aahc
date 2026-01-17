@@ -34,3 +34,40 @@ version = "^0.3"
 [dev-dependencies.tokio]
 version = "^1"
 features = ["io-util", "net"]
+
+[lints.clippy]
+# General lint groups to enable.
+cargo = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+# Disabled because we frequently mix u64 and usize, where the former is used
+# for message body lengths and the latter for in-memory buffer sizes.
+cast_possible_truncation = "allow"
+# Disabled due to <https://github.com/rust-lang/rust-clippy/issues/7271>.
+needless_lifetimes = "allow"
+# Disabled due to personal preference.
+redundant_else = "allow"
+tabs_in_doc_comments = "allow"
+
+[lints.rust]
+# General lint groups to enable.
+future_incompatible = { level = "warn", priority = -1 }
+nonstandard_style = { level = "warn", priority = -1 }
+rust_2018_idioms = { level = "warn", priority = -1 }
+unused = { level = "warn", priority = -1 }
+# Additional specific lints to enable.
+deprecated_in_future = "warn"
+missing_debug_implementations = "warn"
+missing_docs = "warn"
+single_use_lifetimes = "warn"
+trivial_casts = "warn"
+trivial_numeric_casts = "warn"
+unsafe_code = "forbid"
+unused_crate_dependencies = "warn"
+unused_import_braces = "warn"
+unused_lifetimes = "warn"
+unused_qualifications = "warn"
+unused_results = "warn"
+
+[lints.rustdoc]
+all = "warn"
+missing_crate_level_docs = "warn"
