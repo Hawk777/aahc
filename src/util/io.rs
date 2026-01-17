@@ -358,10 +358,10 @@ mod test {
 			fn poll_write(
 				mut self: Pin<&mut Self>,
 				_cx: &mut Context<'_>,
-				data: &[u8],
+				buf: &[u8],
 			) -> Poll<Result<usize>> {
-				self.v.extend_from_slice(data);
-				Ok(data.len()).into()
+				self.v.extend_from_slice(buf);
+				Ok(buf.len()).into()
 			}
 
 			fn poll_flush(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Result<()>> {
@@ -387,9 +387,9 @@ mod test {
 			fn poll_write(
 				mut self: Pin<&mut Self>,
 				_cx: &mut Context<'_>,
-				data: &[u8],
+				buf: &[u8],
 			) -> Poll<Result<usize>> {
-				match data.first() {
+				match buf.first() {
 					None => Ok(0).into(),
 					Some(&b) => {
 						self.v.push(b);
