@@ -390,7 +390,7 @@ mod test {
 	}
 
 	fn expect_invalid_data_cb<T: std::fmt::Debug>(
-		_cb: impl FnOnce(&InvalidData) -> bool, // unused if detailed-errors is off
+		cb: impl FnOnce(&InvalidData) -> bool, // unused if detailed-errors is off
 		x: &Result<T>,
 	) {
 		expect_error(ErrorKind::InvalidData, x);
@@ -406,7 +406,7 @@ mod test {
 				panic!("Expected error source to be an InvalidData instance, got {source:?}")
 			};
 			assert!(
-				_cb(downcasted),
+				cb(downcasted),
 				"Expected error source to be something else, got {downcasted:?}",
 			);
 		}
