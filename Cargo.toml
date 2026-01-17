@@ -53,7 +53,6 @@ tabs_in_doc_comments = "allow"
 rust_2018_idioms = { level = "warn", priority = -1 }
 unused = { level = "warn", priority = -1 }
 # Additional specific lints to enable.
-deprecated_in_future = "warn"
 missing_debug_implementations = "warn"
 missing_docs = "warn"
 single_use_lifetimes = "warn"
