@@ -461,11 +461,10 @@ mod test {
 			// Invalid headers with negative content length.
 			expect_invalid_data_cb(
 				|v| {
-					if let InvalidData::BadContentLength(BadContentLength::NotU64(_)) = v {
-						true
-					} else {
-						false
-					}
+					matches!(
+						v,
+						InvalidData::BadContentLength(BadContentLength::NotU64(_))
+					)
 				},
 				&get_content_length(&Response {
 					minor_version: 1,
@@ -480,11 +479,10 @@ mod test {
 		}
 		expect_invalid_data_cb(
 			|v| {
-				if let InvalidData::BadContentLength(BadContentLength::NotUtf8(_)) = v {
-					true
-				} else {
-					false
-				}
+				matches!(
+					v,
+					InvalidData::BadContentLength(BadContentLength::NotUtf8(_))
+				)
 			},
 			&get_content_length(&Response {
 				minor_version: 1,
@@ -746,12 +744,10 @@ mod test {
 			};
 			expect_invalid_data_cb(
 				|v| {
-					use crate::error::BadContentLength;
-					if let InvalidData::BadContentLength(BadContentLength::NotU64(_)) = v {
-						true
-					} else {
-						false
-					}
+					matches!(
+						v,
+						InvalidData::BadContentLength(crate::error::BadContentLength::NotU64(_))
+					)
 				},
 				&receive(Pin::new(&mut data), &mut buffer, &mut headers, metadata).await,
 			);
