@@ -77,7 +77,10 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 	///
 	/// This function returns `true` if the transport socket can be reused for another HTTP request
 	/// to the same host, or `false` if the transport socket must be closed.
-	#[allow(clippy::must_use_candidate)] // Return value can be ignored, the purpose of this function is mainly to drop self.
+	#[allow(
+		clippy::must_use_candidate,
+		reason = "Return value can be ignored, the purpose of this function is mainly to drop self."
+	)]
 	pub fn finish(self) -> bool {
 		self.persistent
 			&& match self.body_impl {
