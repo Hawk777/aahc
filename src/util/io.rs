@@ -260,7 +260,7 @@ mod test {
 	fn read() {
 		block_on(async {
 			let mut src: &[u8] = &b"abcdefgh"[..];
-			let mut buffer = [0u8; 4];
+			let mut buffer = [0_u8; 4];
 			let bytes_read = Pin::new(&mut src).read(&mut buffer[..]).await.unwrap();
 			assert_eq!(bytes_read, 4);
 			assert_eq!(&buffer, b"abcd");
@@ -272,8 +272,8 @@ mod test {
 	fn read_vectored() {
 		block_on(async {
 			let mut src: &[u8] = &b"abcdefgh"[..];
-			let mut buf1 = [0u8; 4];
-			let mut buf2 = [0u8; 2];
+			let mut buf1 = [0_u8; 4];
+			let mut buf2 = [0_u8; 2];
 			let mut slices = [IoSliceMut::new(&mut buf1), IoSliceMut::new(&mut buf2)];
 			let bytes_read = Pin::new(&mut src).read_vectored(&mut slices).await.unwrap();
 			assert_eq!(bytes_read, 6);

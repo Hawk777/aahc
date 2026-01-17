@@ -632,7 +632,7 @@ mod test {
 	fn receive_basic() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nH1: V1\r\nH2: V2\r\n\r\n"[..];
-			let mut buffer = [0u8; 256];
+			let mut buffer = [0_u8; 256];
 			let mut headers = [httparse::EMPTY_HEADER; 2];
 			let metadata = Metadata {
 				head: false,
@@ -657,7 +657,7 @@ mod test {
 	fn receive_100_continue() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 100 Continue\r\nH0: V0\r\n\r\nHTTP/1.1 200 OK\r\nH1: V1\r\nH2: V2\r\n\r\n"[..];
-			let mut buffer = [0u8; 256];
+			let mut buffer = [0_u8; 256];
 			let mut headers = [httparse::EMPTY_HEADER; 2];
 			let metadata = Metadata {
 				head: false,
@@ -682,7 +682,7 @@ mod test {
 	fn receive_truncated() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nH1: V1\r\nH2: V2\r\n"[..];
-			let mut buffer = [0u8; 256];
+			let mut buffer = [0_u8; 256];
 			let mut headers = [httparse::EMPTY_HEADER; 2];
 			let metadata = Metadata {
 				head: false,
@@ -700,7 +700,7 @@ mod test {
 	fn receive_too_long() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nH1: V1\r\nH2: V2\r\n\r\n"[..];
-			let mut buffer = [0u8; 34];
+			let mut buffer = [0_u8; 34];
 			let mut headers = [httparse::EMPTY_HEADER; 2];
 			let metadata = Metadata {
 				head: false,
@@ -718,7 +718,7 @@ mod test {
 	fn receive_switching_protocols() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 101 Switching Protocols\r\nH1: V1\r\nH2: V2\r\n\r\n"[..];
-			let mut buffer = [0u8; 256];
+			let mut buffer = [0_u8; 256];
 			let mut headers = [httparse::EMPTY_HEADER; 2];
 			let metadata = Metadata {
 				head: false,
@@ -736,7 +736,7 @@ mod test {
 	fn receive_bad_length() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nContent-Length: -1\r\n\r\n"[..];
-			let mut buffer = [0u8; 256];
+			let mut buffer = [0_u8; 256];
 			let mut headers = [httparse::EMPTY_HEADER; 2];
 			let metadata = Metadata {
 				head: false,
@@ -759,7 +759,7 @@ mod test {
 	fn receive_bad_transfer_encoding() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nTransfer-Encoding: gzip\r\n\r\n"[..];
-			let mut buffer = [0u8; 256];
+			let mut buffer = [0_u8; 256];
 			let mut headers = [httparse::EMPTY_HEADER; 2];
 			let metadata = Metadata {
 				head: false,
