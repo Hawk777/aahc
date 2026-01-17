@@ -421,7 +421,7 @@ mod test {
 		expect_invalid_data_cb(|v| *v == variant, x);
 	}
 
-	/// Tests the get_content_length function.
+	/// Tests the [`get_content_length`] function.
 	#[test]
 	fn get_content_length_all() {
 		use crate::error::BadContentLength;
@@ -516,7 +516,7 @@ mod test {
 		);
 	}
 
-	/// Tests the header_length function.
+	/// Tests the [`headers_length`] function.
 	#[test]
 	fn headers_length_all() {
 		// Basic complete set of headers ending with CR LF CR LF.
@@ -540,7 +540,7 @@ mod test {
 		assert_eq!(headers_length(b"H:V\nH:V\n\r"), None);
 	}
 
-	/// Tests the is_chunked function.
+	/// Tests the [`is_chunked`] function.
 	#[test]
 	fn is_chunked_all() {
 		// Basic headers including Transfer-Encoding: chunked.
@@ -608,7 +608,7 @@ mod test {
 		);
 	}
 
-	/// Tests the parse_status_code function.
+	/// Tests the [`parse_status_code`] function.
 	#[test]
 	fn parse_status_code_all() {
 		// Basic headers.

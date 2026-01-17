@@ -87,7 +87,7 @@ mod test {
 	use std::io::IoSliceMut;
 	use std::pin::Pin;
 
-	/// Tests receiving all the body via a single poll_read.
+	/// Tests receiving all the body via a single [`poll_read`](Receive::poll_read).
 	#[test]
 	fn read_all() {
 		block_on(async {
@@ -101,7 +101,7 @@ mod test {
 		});
 	}
 
-	/// Tests receiving all the body via multiple poll_reads.
+	/// Tests receiving all the body via multiple [`poll_read`](Receive::poll_read)s.
 	#[test]
 	fn read_all_multi() {
 		block_on(async {
@@ -118,7 +118,8 @@ mod test {
 		});
 	}
 
-	/// Tests receiving only part of the body via poll_read before finishing.
+	/// Tests receiving only part of the body via [`poll_read`](Receive::poll_read) before
+	/// finishing.
 	#[test]
 	fn read_some() {
 		block_on(async {
@@ -132,7 +133,8 @@ mod test {
 		});
 	}
 
-	/// Tests receiving all the body via a single poll_read_vectored.
+	/// Tests receiving all the body via a single
+	/// [`poll_read_vectored`](Receive::poll_read_vectored).
 	#[test]
 	fn read_vectored_all() {
 		block_on(async {
@@ -149,7 +151,8 @@ mod test {
 		});
 	}
 
-	/// Tests receiving all the body via multiple poll_read_vectoreds.
+	/// Tests receiving all the body via multiple
+	/// [`poll_read_vectored`](Receive::poll_read_vectored)s.
 	#[test]
 	fn read_vectored_all_multi() {
 		block_on(async {
@@ -171,7 +174,8 @@ mod test {
 		});
 	}
 
-	/// Tests receiving only part of the body via poll_read_vectored before finishing.
+	/// Tests receiving only part of the body via
+	/// [`poll_read_vectored`](Receive::poll_read_vectored) before finishing.
 	#[test]
 	fn read_vectored_some() {
 		block_on(async {
