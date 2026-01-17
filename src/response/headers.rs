@@ -173,6 +173,10 @@ pub async fn receive<'socket, 'headers, Socket: AsyncBufRead + ?Sized>(
 		}
 		httparse::Status::Complete(_) => (),
 	}
+	#[expect(
+		clippy::missing_panics_doc,
+		reason = "version, code, and reason are guaranteed to be Some if parse() returned Complete"
+	)]
 	let resp = Response {
 		minor_version: resp.version.unwrap(),
 		status: resp.code.unwrap(),
