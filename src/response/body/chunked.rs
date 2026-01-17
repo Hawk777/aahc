@@ -268,7 +268,7 @@ mod test {
 		// Read and verify the output.
 		let mut rx = Receive::new(Pin::new(&mut input));
 		let mut actual_output = vec![0_u8; expected_output.len()].into_boxed_slice();
-		crate::util::io::read_all(Pin::new(&mut rx), &mut actual_output[..])
+		crate::util::io::read_all(Pin::new(&mut rx), &mut actual_output)
 			.await
 			.unwrap();
 		assert_eq!(*actual_output, *expected_output);
