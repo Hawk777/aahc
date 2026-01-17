@@ -53,17 +53,25 @@ tabs_in_doc_comments = "allow"
 rust_2018_idioms = { level = "warn", priority = -1 }
 unused = { level = "warn", priority = -1 }
 # Additional specific lints to enable.
+ambiguous_negative_literals = "warn"
+closure_returning_async_block = "warn"
+meta_variable_misuse = "warn"
 missing_debug_implementations = "warn"
 missing_docs = "warn"
+redundant_imports = "warn"
+redundant_lifetimes = "warn"
 single_use_lifetimes = "warn"
 trivial_casts = "warn"
 trivial_numeric_casts = "warn"
+unit_bindings = "warn"
+unreachable_pub = "warn"
 unsafe_code = "forbid"
 unused_crate_dependencies = "warn"
 unused_import_braces = "warn"
 unused_lifetimes = "warn"
 unused_qualifications = "warn"
 unused_results = "warn"
+variant_size_differences = "warn"
 
 [lints.rustdoc]
 all = "warn"
