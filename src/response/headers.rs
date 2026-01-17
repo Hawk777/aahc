@@ -412,8 +412,8 @@ mod test {
 		}
 	}
 
-	fn expect_invalid_data<T: std::fmt::Debug>(variant: InvalidData, x: &Result<T>) {
-		expect_invalid_data_cb(|v| *v == variant, x);
+	fn expect_invalid_data<T: std::fmt::Debug>(variant: &InvalidData, x: &Result<T>) {
+		expect_invalid_data_cb(|v| v == variant, x);
 	}
 
 	/// Tests the [`get_content_length`] function.
@@ -492,7 +492,7 @@ mod test {
 
 		// Invalid: multiple Content-Length headers.
 		expect_invalid_data(
-			InvalidData::MultipleContentLengths,
+			&InvalidData::MultipleContentLengths,
 			&get_content_length(&Response {
 				minor_version: 1,
 				status: 200,
@@ -570,7 +570,7 @@ mod test {
 
 		// An unsupported Transfer-Encoding.
 		expect_invalid_data(
-			InvalidData::NotChunked,
+			&InvalidData::NotChunked,
 			&is_chunked(&Response {
 				minor_version: 1,
 				status: 200,
@@ -584,7 +584,7 @@ mod test {
 
 		// Invalid: multiple Transfer-Encoding headers.
 		expect_invalid_data(
-			InvalidData::MultipleTransferEncodings,
+			&InvalidData::MultipleTransferEncodings,
 			&is_chunked(&Response {
 				minor_version: 1,
 				status: 200,
@@ -617,7 +617,7 @@ mod test {
 
 		// Invalid: not HTTP.
 		expect_invalid_data(
-			InvalidData::ParseHeaders(httparse::Error::Version),
+			&InvalidData::ParseHeaders(httparse::Error::Version),
 			&parse_status_code(b"ABCD/1.1 200 OK\r\n\r\n"),
 		);
 	}
@@ -702,7 +702,7 @@ mod test {
 				connection_close: false,
 			};
 			expect_invalid_data(
-				InvalidData::ResponseHeadersTooLong,
+				&InvalidData::ResponseHeadersTooLong,
 				&receive(Pin::new(&mut data), &mut buffer, &mut headers, metadata).await,
 			);
 		});
@@ -720,7 +720,7 @@ mod test {
 				connection_close: false,
 			};
 			expect_invalid_data(
-				InvalidData::SwitchingProtocols,
+				&InvalidData::SwitchingProtocols,
 				&receive(Pin::new(&mut data), &mut buffer, &mut headers, metadata).await,
 			);
 		});
@@ -761,7 +761,7 @@ mod test {
 				connection_close: false,
 			};
 			expect_invalid_data(
-				InvalidData::NotChunked,
+				&InvalidData::NotChunked,
 				&receive(Pin::new(&mut data), &mut buffer, &mut headers, metadata).await,
 			);
 		});
