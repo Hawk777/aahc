@@ -257,7 +257,7 @@ mod test {
 
 	/// Tests calling `read` on a source.
 	#[test]
-	fn test_read() {
+	fn read() {
 		block_on(async {
 			let mut src: &[u8] = &b"abcdefgh"[..];
 			let mut buffer = [0u8; 4];
@@ -269,7 +269,7 @@ mod test {
 
 	/// Tests calling `read_vectored` on a source.
 	#[test]
-	fn test_read_vectored() {
+	fn read_vectored() {
 		block_on(async {
 			let mut src: &[u8] = &b"abcdefgh"[..];
 			let mut buf1 = [0u8; 4];
@@ -285,7 +285,7 @@ mod test {
 	/// Tests calling `poll_read_vectored_bounded` with a limit small enough to fill less than one
 	/// buffer.
 	#[test]
-	fn test_poll_read_vectored_bounded_one_partial() {
+	fn poll_read_vectored_bounded_one_partial() {
 		block_on(async {
 			let mut src: &[u8] = &b"abcdefgh"[..];
 			let mut buf1 = [0_u8; 4];
@@ -307,7 +307,7 @@ mod test {
 	/// Tests calling `poll_read_vectored_bounded` with a limit large enough to fill the first
 	/// buffer, but not the first two.
 	#[test]
-	fn test_poll_read_vectored_bounded_one_full() {
+	fn poll_read_vectored_bounded_one_full() {
 		block_on(async {
 			let mut src: &[u8] = &b"abcdefgh"[..];
 			let mut buf1 = [0_u8; 4];
@@ -329,7 +329,7 @@ mod test {
 	/// Tests calling `poll_read_vectored_bounded` with a limit large enough to fill the first two
 	/// buffers.
 	#[test]
-	fn test_poll_read_vectored_bounded_two_full() {
+	fn poll_read_vectored_bounded_two_full() {
 		block_on(async {
 			let mut src: &[u8] = &b"abcdefghij"[..];
 			let mut buf1 = [0_u8; 4];
@@ -350,7 +350,7 @@ mod test {
 
 	/// Tests calling `write_all` on a sink that accepts unlimited data at a time.
 	#[test]
-	fn test_write_all_fast() {
+	fn write_all_fast() {
 		struct Test {
 			v: Vec<u8>,
 		}
@@ -379,7 +379,7 @@ mod test {
 
 	/// Tests calling `write_all` on a sink that accepts data only one byte at a time.
 	#[test]
-	fn test_write_all_slow() {
+	fn write_all_slow() {
 		struct Test {
 			v: Vec<u8>,
 		}
@@ -413,7 +413,7 @@ mod test {
 
 	/// Tests calling `write_all` on a sink that returns an error.
 	#[test]
-	fn test_write_all_error() {
+	fn write_all_error() {
 		struct Test {
 			already_called: bool,
 		}

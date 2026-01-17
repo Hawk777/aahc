@@ -264,7 +264,7 @@ mod test {
 
 	/// Tests that a given raw input can be read to a given output, and that doing so consumes the
 	/// entire input.
-	async fn test_reads_all_input(mut input: &[u8], expected_output: &[u8]) {
+	async fn reads_all_input(mut input: &[u8], expected_output: &[u8]) {
 		// Read and verify the output.
 		let mut rx = Receive::new(Pin::new(&mut input));
 		let mut actual_output = vec![0_u8; expected_output.len()].into_boxed_slice();
@@ -286,9 +286,9 @@ mod test {
 
 	/// Tests reading some chunked data via `poll_read`.
 	#[test]
-	fn test_poll_read() {
+	fn poll_read() {
 		block_on(async {
-			test_reads_all_input(
+			reads_all_input(
 				&b"006\r\nHello \r\n006\r\nWorld!\r\n0\r\n\r\n"[..],
 				b"Hello World!",
 			)
@@ -298,15 +298,15 @@ mod test {
 
 	/// Tests reading some chunked data with chunk extensions.
 	#[test]
-	fn test_poll_read_exts() {
+	fn poll_read_exts() {
 		block_on(async {
-			test_reads_all_input(&b"006; cext-name=cext-value\r\nHello \r\n006; cext-name=\"quoted-cext-value-with\ttabs-in-it\"\r\nWorld!\r\n0\r\n\r\n"[..], b"Hello World!").await;
+			reads_all_input(&b"006; cext-name=cext-value\r\nHello \r\n006; cext-name=\"quoted-cext-value-with\ttabs-in-it\"\r\nWorld!\r\n0\r\n\r\n"[..], b"Hello World!").await;
 		});
 	}
 
 	/// Tests doing a vectored read.
 	#[test]
-	fn test_poll_read_vectored() {
+	fn poll_read_vectored() {
 		block_on(async {
 			use std::io::IoSliceMut;
 

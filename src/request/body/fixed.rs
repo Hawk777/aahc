@@ -102,7 +102,7 @@ mod test {
 
 	/// Tests sending a request body of the proper length.
 	#[test]
-	fn test_basic() {
+	fn basic() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink), 12);
@@ -117,7 +117,7 @@ mod test {
 
 	/// Tests sending a request body of the proper length in two parts.
 	#[test]
-	fn test_two_parts() {
+	fn two_parts() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink), 12);
@@ -131,7 +131,7 @@ mod test {
 	/// Tests sending not enough data before finishing.
 	#[test]
 	#[should_panic = "remaining == 0"]
-	fn test_truncated() {
+	fn truncated() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink), 13);
@@ -144,7 +144,7 @@ mod test {
 	/// Tests sending too much data.
 	#[test]
 	#[should_panic = "Attempted to write 12 bytes, but Content-Length indicates only 11 should be left to send"]
-	fn test_overflow() {
+	fn overflow() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink), 11);

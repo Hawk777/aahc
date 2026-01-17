@@ -167,7 +167,7 @@ mod test {
 
 	/// Tests sending some basic headers, with neither Content-Length nor Transfer-Encoding.
 	#[test]
-	fn test_basic() {
+	fn basic() {
 		let headers = [
 			Header {
 				name: "User-Agent",
@@ -185,7 +185,7 @@ mod test {
 
 	/// Tests sending some basic request headers, including Content-Length.
 	#[test]
-	fn test_content_length() {
+	fn content_length() {
 		let headers = [
 			Header {
 				name: "User-Agent",
@@ -203,7 +203,7 @@ mod test {
 
 	/// Tests sending some basic request headers, including Transfer-Encoding.
 	#[test]
-	fn test_transfer_encoding() {
+	fn transfer_encoding() {
 		let headers = [
 			Header {
 				name: "User-Agent",

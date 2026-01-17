@@ -423,7 +423,7 @@ mod test {
 
 	/// Tests the get_content_length function.
 	#[test]
-	fn test_get_content_length() {
+	fn get_content_length_all() {
 		use crate::error::BadContentLength;
 
 		// Basic headers including Content-Length.
@@ -518,7 +518,7 @@ mod test {
 
 	/// Tests the header_length function.
 	#[test]
-	fn test_headers_length() {
+	fn headers_length_all() {
 		// Basic complete set of headers ending with CR LF CR LF.
 		assert_eq!(headers_length(b"H:V\r\nH:V\r\n\r\n"), Some(12));
 
@@ -542,7 +542,7 @@ mod test {
 
 	/// Tests the is_chunked function.
 	#[test]
-	fn test_is_chunked() {
+	fn is_chunked_all() {
 		// Basic headers including Transfer-Encoding: chunked.
 		assert_eq!(
 			is_chunked(&Response {
@@ -610,7 +610,7 @@ mod test {
 
 	/// Tests the parse_status_code function.
 	#[test]
-	fn test_parse_status_code() {
+	fn parse_status_code_all() {
 		// Basic headers.
 		assert_eq!(
 			parse_status_code(b"HTTP/1.1 200 OK\r\nH: V\r\n\r\n").unwrap(),
@@ -629,7 +629,7 @@ mod test {
 
 	/// Tests receiving a full set of headers.
 	#[test]
-	fn test_receive_basic() {
+	fn receive_basic() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nH1: V1\r\nH2: V2\r\n\r\n"[..];
 			let mut buffer = [0u8; 256];
@@ -654,7 +654,7 @@ mod test {
 
 	/// Tests receiving a 100 Continue status followed by a proper response.
 	#[test]
-	fn test_receive_100_continue() {
+	fn receive_100_continue() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 100 Continue\r\nH0: V0\r\n\r\nHTTP/1.1 200 OK\r\nH1: V1\r\nH2: V2\r\n\r\n"[..];
 			let mut buffer = [0u8; 256];
@@ -679,7 +679,7 @@ mod test {
 
 	/// Tests a truncated response.
 	#[test]
-	fn test_receive_truncated() {
+	fn receive_truncated() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nH1: V1\r\nH2: V2\r\n"[..];
 			let mut buffer = [0u8; 256];
@@ -697,7 +697,7 @@ mod test {
 
 	/// Tests response headers being too long to fit in the application-provided buffer.
 	#[test]
-	fn test_receive_too_long() {
+	fn receive_too_long() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nH1: V1\r\nH2: V2\r\n\r\n"[..];
 			let mut buffer = [0u8; 34];
@@ -715,7 +715,7 @@ mod test {
 
 	/// Tests receiving a Switching Protocols status.
 	#[test]
-	fn test_receive_switching_protocols() {
+	fn receive_switching_protocols() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 101 Switching Protocols\r\nH1: V1\r\nH2: V2\r\n\r\n"[..];
 			let mut buffer = [0u8; 256];
@@ -733,7 +733,7 @@ mod test {
 
 	/// Tests receiving an invalid `Content-Length` header.
 	#[test]
-	fn test_receive_bad_length() {
+	fn receive_bad_length() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nContent-Length: -1\r\n\r\n"[..];
 			let mut buffer = [0u8; 256];
@@ -756,7 +756,7 @@ mod test {
 
 	/// Tests receiving an unacceptable `Transfer-Encoding` header.
 	#[test]
-	fn test_receive_bad_transfer_encoding() {
+	fn receive_bad_transfer_encoding() {
 		block_on(async {
 			let mut data = &b"HTTP/1.1 200 OK\r\nTransfer-Encoding: gzip\r\n\r\n"[..];
 			let mut buffer = [0u8; 256];

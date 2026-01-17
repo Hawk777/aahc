@@ -89,7 +89,7 @@ mod test {
 
 	/// Tests receiving all the body via a single poll_read.
 	#[test]
-	fn test_read_all() {
+	fn read_all() {
 		block_on(async {
 			let mut data = &b"abcdefgh"[..];
 			let mut rx = Receive::new(Pin::new(&mut data), 6);
@@ -103,7 +103,7 @@ mod test {
 
 	/// Tests receiving all the body via multiple poll_reads.
 	#[test]
-	fn test_read_all_multi() {
+	fn read_all_multi() {
 		block_on(async {
 			let mut data = &b"abcdefgh"[..];
 			let mut rx = Receive::new(Pin::new(&mut data), 6);
@@ -120,7 +120,7 @@ mod test {
 
 	/// Tests receiving only part of the body via poll_read before finishing.
 	#[test]
-	fn test_read_some() {
+	fn read_some() {
 		block_on(async {
 			let mut data = &b"abcdefgh"[..];
 			let mut rx = Receive::new(Pin::new(&mut data), 6);
@@ -134,7 +134,7 @@ mod test {
 
 	/// Tests receiving all the body via a single poll_read_vectored.
 	#[test]
-	fn test_read_vectored_all() {
+	fn read_vectored_all() {
 		block_on(async {
 			let mut data = &b"abcdefgh"[..];
 			let mut rx = Receive::new(Pin::new(&mut data), 6);
@@ -151,7 +151,7 @@ mod test {
 
 	/// Tests receiving all the body via multiple poll_read_vectoreds.
 	#[test]
-	fn test_read_vectored_all_multi() {
+	fn read_vectored_all_multi() {
 		block_on(async {
 			let mut data = &b"abcdefgh"[..];
 			let mut rx = Receive::new(Pin::new(&mut data), 6);
@@ -173,7 +173,7 @@ mod test {
 
 	/// Tests receiving only part of the body via poll_read_vectored before finishing.
 	#[test]
-	fn test_read_vectored_some() {
+	fn read_vectored_some() {
 		block_on(async {
 			let mut data = &b"abcdefgh"[..];
 			let mut rx = Receive::new(Pin::new(&mut data), 6);

@@ -301,7 +301,7 @@ mod test {
 
 	/// Tests sending a body with one single chunk.
 	#[test]
-	fn test_basic() {
+	fn basic() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink));
@@ -316,7 +316,7 @@ mod test {
 
 	/// Tests sending a body as two chunks, one after another.
 	#[test]
-	fn test_two_chunks() {
+	fn two_chunks() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink));
@@ -330,7 +330,7 @@ mod test {
 	/// Tests sending a body as one chunk, using a size hint to break it into two blocks but not
 	/// two chunks.
 	#[test]
-	fn test_hint() {
+	fn hint() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink));
@@ -344,7 +344,7 @@ mod test {
 
 	/// Tests use of a size hint where a single write overlaps the end of the hinted chunk.
 	#[test]
-	fn test_hint_overlap() {
+	fn hint_overlap() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink));
@@ -360,7 +360,7 @@ mod test {
 	/// Tests that trying to finish while inside a chunk panics.
 	#[test]
 	#[should_panic = "chunk_bytes_left == 0"]
-	fn test_truncate() {
+	fn truncate() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink));
@@ -372,7 +372,7 @@ mod test {
 
 	/// Tests that writing zero-byte blocks in various places doesn’t create spurious empty chunks.
 	#[test]
-	fn test_zero_bytes() {
+	fn zero_bytes() {
 		block_on(async {
 			let mut sink = Vec::new();
 			let mut body = Send::new(Pin::new(&mut sink));
