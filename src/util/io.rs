@@ -445,6 +445,6 @@ mod test {
 		};
 		let e = block_on(async { Pin::new(&mut t).write_all(b"abcdefgh").await }).unwrap_err();
 		assert_eq!(e.kind(), std::io::ErrorKind::Other);
-		assert_eq!(format!("{}", e), "Test error message");
+		assert_eq!(format!("{e}"), "Test error message");
 	}
 }

@@ -385,7 +385,7 @@ mod test {
 	fn expect_error<T: std::fmt::Debug>(kind: ErrorKind, x: &Result<T>) {
 		match x {
 			Err(e) if e.kind() == kind => (),
-			_ => panic!("Expected error of kind {:?}, got {:?}", kind, x),
+			_ => panic!("Expected error of kind {kind:?}, got {x:?}"),
 		}
 	}
 
@@ -404,15 +404,13 @@ mod test {
 			let downcasted = source.downcast_ref::<InvalidData>();
 			let downcasted = match downcasted {
 				Some(x) => x,
-				None => panic!(
-					"Expected error source to be an InvalidData instance, got {:?}",
-					source
-				),
+				None => {
+					panic!("Expected error source to be an InvalidData instance, got {source:?}")
+				}
 			};
 			assert!(
 				_cb(downcasted),
-				"Expected error source to be something else, got {:?}",
-				downcasted
+				"Expected error source to be something else, got {downcasted:?}",
 			);
 		}
 	}
