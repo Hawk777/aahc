@@ -11,7 +11,6 @@
 	rustdoc::missing_crate_level_docs,
 	missing_debug_implementations,
 	missing_docs,
-	missing_doc_code_examples,
 	single_use_lifetimes,
 	trivial_casts,
 	trivial_numeric_casts,
