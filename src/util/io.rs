@@ -254,9 +254,6 @@ pub(crate) async fn read_all<Source: AsyncRead + ?Sized>(
 mod test {
 	use super::*;
 	use futures_executor::block_on;
-	use futures_io::AsyncWrite;
-	use std::pin::Pin;
-	use std::task::{Context, Poll};
 
 	/// Tests calling `read` on a source.
 	#[test]
