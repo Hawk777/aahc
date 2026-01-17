@@ -1,6 +1,7 @@
 use crate::Header;
 use crate::error::InvalidData;
 use crate::response::body::Receive;
+use crate::util::io::AsyncBufReadExt as _;
 use futures_io::AsyncBufRead;
 use std::io::Result;
 use std::pin::Pin;
@@ -80,7 +81,6 @@ pub async fn receive<'socket, 'headers, Socket: AsyncBufRead + ?Sized>(
 		// So just do this hack instead.
 		loop {
 			let headers_done = {
-				use crate::util::io::AsyncBufReadExt as _;
 				socket
 					.as_mut()
 					.read_buf(|bytes: &[u8]| -> (usize, Result<bool>) {
