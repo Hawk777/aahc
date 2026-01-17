@@ -73,7 +73,7 @@ enum State {
 
 /// A response body that is encoded using chunked transfer coding.
 #[derive(Debug)]
-pub struct Receive<'socket, Socket: AsyncRead + ?Sized> {
+pub(super) struct Receive<'socket, Socket: AsyncRead + ?Sized> {
 	/// The underlying socket.
 	socket: Pin<&'socket mut Socket>,
 
@@ -85,7 +85,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 	/// Constructs a new `Receive`.
 	///
 	/// The `socket` parameter is the underlying socket to read from.
-	pub fn new(socket: Pin<&'socket mut Socket>) -> Self {
+	pub(super) fn new(socket: Pin<&'socket mut Socket>) -> Self {
 		Self {
 			socket,
 			state: State::SizeFirst,
@@ -96,7 +96,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 	///
 	/// This function returns `true` if the entire response body has been received, or `false` if
 	/// not.
-	pub fn finish(self) -> bool {
+	pub(super) fn finish(self) -> bool {
 		self.state == State::Done
 	}
 

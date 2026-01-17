@@ -5,7 +5,7 @@ use std::pin::Pin;
 use std::task::{Context, Poll};
 
 /// A set of additional utility functions available on any type implementing `AsyncBufRead`.
-pub trait AsyncBufReadExt: AsyncBufRead {
+pub(crate) trait AsyncBufReadExt: AsyncBufRead {
 	/// Fills the internal buffer, then invokes a callback which can consume some bytes from that
 	/// buffer.
 	///
@@ -33,7 +33,7 @@ pub trait AsyncBufReadExt: AsyncBufRead {
 impl<R: AsyncBufRead + ?Sized> AsyncBufReadExt for R {}
 
 /// A set of additional utility functions available on any type implementing `AsyncRead`.
-pub trait AsyncReadExt: AsyncRead {
+pub(crate) trait AsyncReadExt: AsyncRead {
 	/// Reads data to a caller-provided buffer.
 	#[cfg(test)]
 	fn read<'buffer>(
@@ -113,7 +113,7 @@ pub trait AsyncReadExt: AsyncRead {
 impl<R: AsyncRead + ?Sized> AsyncReadExt for R {}
 
 /// A set of additional utility functions available on any type implementing `AsyncWrite`.
-pub trait AsyncWriteExt: AsyncWrite {
+pub(crate) trait AsyncWriteExt: AsyncWrite {
 	/// Writes a block of bytes to the writeable.
 	///
 	/// This function performs repeated writes into the writeable until the entire requested data
@@ -128,7 +128,7 @@ impl<W: AsyncWrite + ?Sized> AsyncWriteExt for W {}
 /// A future that fills an `AsyncBufRead`’s internal buffer and then invokes a callback to consume
 /// some or all of the data.
 #[derive(Debug)]
-pub struct ReadBufFuture<
+pub(crate) struct ReadBufFuture<
 	'source,
 	Source: AsyncBufRead + ?Sized,
 	CallbackReturn,
@@ -158,7 +158,7 @@ impl<
 /// A future that reads from an `AsyncRead` into a single caller-provided buffer.
 #[cfg(test)]
 #[derive(Debug)]
-pub struct ReadFuture<'source, 'buffer, Source: AsyncRead + ?Sized> {
+pub(crate) struct ReadFuture<'source, 'buffer, Source: AsyncRead + ?Sized> {
 	source: Pin<&'source mut Source>,
 	buffer: &'buffer mut [u8],
 }
@@ -176,7 +176,7 @@ impl<Source: AsyncRead + ?Sized> Future for ReadFuture<'_, '_, Source> {
 /// A future that reads from an `AsyncRead` into a collection of caller-provided buffers.
 #[cfg(test)]
 #[derive(Debug)]
-pub struct ReadVectoredFuture<'source, 'buffers, Source: AsyncRead + ?Sized> {
+pub(crate) struct ReadVectoredFuture<'source, 'buffers, Source: AsyncRead + ?Sized> {
 	source: Pin<&'source mut Source>,
 	buffers: &'buffers mut [IoSliceMut<'buffers>],
 }
@@ -195,7 +195,7 @@ impl<Source: AsyncRead + ?Sized> Future for ReadVectoredFuture<'_, '_, Source> {
 /// additional length limit.
 #[cfg(test)]
 #[derive(Debug)]
-pub struct ReadVectoredBoundedFuture<'source, 'bufs, Source: AsyncRead + ?Sized> {
+pub(crate) struct ReadVectoredBoundedFuture<'source, 'bufs, Source: AsyncRead + ?Sized> {
 	source: Pin<&'source mut Source>,
 	bufs: &'bufs mut [IoSliceMut<'bufs>],
 	limit: u64,
@@ -215,7 +215,7 @@ impl<Source: AsyncRead + ?Sized> Future for ReadVectoredBoundedFuture<'_, '_, So
 
 /// A future that writes all of an array to an `AsyncWrite`.
 #[derive(Debug)]
-pub struct WriteAllFuture<'a, T: AsyncWrite + ?Sized> {
+pub(crate) struct WriteAllFuture<'a, T: AsyncWrite + ?Sized> {
 	sink: Pin<&'a mut T>,
 	data: &'a [u8],
 }
@@ -235,7 +235,7 @@ impl<T: AsyncWrite + ?Sized> Future for WriteAllFuture<'_, T> {
 
 /// Issues repeated reads until the caller-provided buffer is full.
 #[cfg(test)]
-pub async fn read_all<Source: AsyncRead + ?Sized>(
+pub(crate) async fn read_all<Source: AsyncRead + ?Sized>(
 	mut src: Pin<&mut Source>,
 	mut buffer: &mut [u8],
 ) -> Result<()> {

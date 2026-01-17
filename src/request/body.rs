@@ -174,7 +174,7 @@ mod test {
 	use futures_io::AsyncWrite;
 	use std::pin::Pin;
 
-	pub trait AsyncWriteExt: AsyncWrite {
+	pub(super) trait AsyncWriteExt: AsyncWrite {
 		fn write<'a>(self: Pin<&'a mut Self>, data: &'a [u8]) -> WriteFuture<'a, Self> {
 			WriteFuture { sink: self, data }
 		}
@@ -184,7 +184,7 @@ mod test {
 
 	/// A future that writes data to an `AsyncWrite`.
 	#[derive(Debug)]
-	pub struct WriteFuture<'a, T: AsyncWrite + ?Sized> {
+	pub(super) struct WriteFuture<'a, T: AsyncWrite + ?Sized> {
 		sink: Pin<&'a mut T>,
 		data: &'a [u8],
 	}

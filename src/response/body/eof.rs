@@ -5,7 +5,7 @@ use std::task::{Context, Poll};
 
 /// A response body that ends when the underlying socket is closed by the server.
 #[derive(Debug)]
-pub struct Receive<'socket, Socket: AsyncRead + ?Sized> {
+pub(super) struct Receive<'socket, Socket: AsyncRead + ?Sized> {
 	/// The underlying socket.
 	socket: Pin<&'socket mut Socket>,
 }
@@ -14,7 +14,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 	/// Constructs a new `Receive`.
 	///
 	/// The `socket` parameter is the underlying socket to read from.
-	pub fn new(socket: Pin<&'socket mut Socket>) -> Self {
+	pub(super) fn new(socket: Pin<&'socket mut Socket>) -> Self {
 		Self { socket }
 	}
 }

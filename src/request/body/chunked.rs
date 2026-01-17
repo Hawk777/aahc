@@ -11,7 +11,7 @@ use std::task::{Context, Poll};
 /// The `'socket` lifetime parameter is the lifetime of the transport socket. The `Socket` type
 /// parameter is the type of transport-layer socket over which the HTTP request will be sent.
 #[derive(Debug, Eq, PartialEq)]
-pub struct Send<'socket, Socket: AsyncWrite + ?Sized> {
+pub(super) struct Send<'socket, Socket: AsyncWrite + ?Sized> {
 	/// The underlying socket.
 	socket: Pin<&'socket mut Socket>,
 
@@ -36,7 +36,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 	///
 	/// The `socket` parameter is the transport-layer socket over which the HTTP request will be
 	/// sent.
-	pub fn new(socket: Pin<&'socket mut Socket>) -> Self {
+	pub(super) fn new(socket: Pin<&'socket mut Socket>) -> Self {
 		Self {
 			socket,
 			header_footer_buffer: Default::default(),
@@ -66,7 +66,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 	/// would result in ten 10,000-byte chunks being sent; by calling this function, instead a
 	/// single 100,000-byte chunk is sent, reducing the overhead due to chunk headers without
 	/// requiring that the application load all 100,000 bytes into memory at once.
-	pub fn hint_length(&mut self, length: u64) {
+	pub(super) fn hint_length(&mut self, length: u64) {
 		// The length of the next chunk is not always equal to the hint value. If we’re currently
 		// in the middle of a chunk, we must finish that chunk first, which means the next chunk
 		// will be the hint value minus however much is left in the current chunk.
@@ -175,7 +175,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 	///
 	/// # Errors
 	/// This function returns an error if writing to the underlying socket fails.
-	pub async fn finish(mut self) -> Result<()> {
+	pub(super) async fn finish(mut self) -> Result<()> {
 		use crate::util::io::AsyncWriteExt as _;
 
 		struct SendHeaderFooterDataFuture<'socket, 'body, Socket: AsyncWrite + ?Sized> {

@@ -9,7 +9,7 @@ use std::task::{Context, Poll};
 /// The `'socket` lifetime parameter is the lifetime of the transport socket. The `Socket` type
 /// parameter is the type of transport-layer socket over which the HTTP request will be sent.
 #[derive(Debug, Eq, PartialEq)]
-pub struct Send<'socket, Socket: AsyncWrite + ?Sized> {
+pub(super) struct Send<'socket, Socket: AsyncWrite + ?Sized> {
 	/// The underlying socket.
 	socket: Pin<&'socket mut Socket>,
 
@@ -22,7 +22,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 	///
 	/// The `socket` parameter is the transport-layer socket over which the HTTP request will be
 	/// sent. The `length` parameter is the number of bytes of body to send.
-	pub fn new(socket: Pin<&'socket mut Socket>, length: u64) -> Self {
+	pub(super) fn new(socket: Pin<&'socket mut Socket>, length: u64) -> Self {
 		Self {
 			socket,
 			remaining: length,
@@ -40,7 +40,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 	///
 	/// # Panics
 	/// This function panics in a debug build if the full request body has not yet been sent.
-	pub fn finish(self) {
+	pub(super) fn finish(self) {
 		// Sanity check that the full request body has been sent.
 		debug_assert!(self.remaining == 0);
 	}

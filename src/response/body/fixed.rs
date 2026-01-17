@@ -6,7 +6,7 @@ use std::task::{Context, Poll};
 
 /// A response body that is a fixed length known a priori from a `Content-Length` header.
 #[derive(Debug)]
-pub struct Receive<'socket, Socket: AsyncRead + ?Sized> {
+pub(super) struct Receive<'socket, Socket: AsyncRead + ?Sized> {
 	/// The underlying socket.
 	socket: Pin<&'socket mut Socket>,
 
@@ -19,7 +19,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 	///
 	/// The `socket` parameter is the underlying socket to read from. The `length` parameter is the
 	/// length of the response body.
-	pub fn new(socket: Pin<&'socket mut Socket>, length: u64) -> Self {
+	pub(super) fn new(socket: Pin<&'socket mut Socket>, length: u64) -> Self {
 		Self {
 			socket,
 			remaining: length,
@@ -30,7 +30,7 @@ impl<'socket, Socket: AsyncRead + ?Sized> Receive<'socket, Socket> {
 	///
 	/// This function returns `true` if the entire response body has been received, or `false` if
 	/// not.
-	pub fn finish(self) -> bool {
+	pub(super) fn finish(self) -> bool {
 		self.remaining == 0
 	}
 }
