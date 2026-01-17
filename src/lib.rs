@@ -8,7 +8,7 @@
 )]
 #![warn(
 	deprecated_in_future,
-	missing_crate_level_docs,
+	rustdoc::missing_crate_level_docs,
 	missing_debug_implementations,
 	missing_docs,
 	missing_doc_code_examples,
