@@ -131,7 +131,7 @@ impl Display for InvalidData {
 			}
 			Self::MultipleContentLengths => write!(f, "Multiple Content-Length headers received"),
 			Self::BadContentLength(inner) => {
-				write!(f, "Invalid Content-Length header received: {}", inner)
+				write!(f, "Invalid Content-Length header received: {inner}")
 			}
 			Self::TransferEncodingWithNoContent => {
 				write!(f, "Transfer-Encoding received in 204 No Content response")
@@ -140,7 +140,7 @@ impl Display for InvalidData {
 				write!(f, "Multiple Transfer-Encoding headers received")
 			}
 			Self::NotChunked => write!(f, "Unsupported Transfer-Encoding received"),
-			Self::BadChunkHeader(inner) => write!(f, "Invalid chunk header received: {}", inner),
+			Self::BadChunkHeader(inner) => write!(f, "Invalid chunk header received: {inner}"),
 		}
 	}
 }

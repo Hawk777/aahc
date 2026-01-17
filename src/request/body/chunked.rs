@@ -128,7 +128,7 @@ impl<'socket, Socket: AsyncWrite + ?Sized> Send<'socket, Socket> {
 				.take()
 				.map_or(length64, |v| max(v, length64));
 			let mut cursor = std::io::Cursor::new(&mut self.header_footer_buffer[..]);
-			write!(&mut cursor, "{:X}\r\n", chunk_size).unwrap();
+			write!(&mut cursor, "{chunk_size:X}\r\n").unwrap();
 			self.header_footer_buffer_used = cursor.position() as usize;
 			self.header_footer_buffer_sent = 0;
 			self.chunk_bytes_left = chunk_size.get();
