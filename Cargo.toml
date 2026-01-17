@@ -115,4 +115,3 @@ variant_size_differences = "warn"
 
 [lints.rustdoc]
 all = "warn"
-missing_crate_level_docs = "warn"
