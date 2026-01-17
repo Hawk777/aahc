@@ -359,7 +359,7 @@ mod test {
 
 	/// Tests that trying to finish while inside a chunk panics.
 	#[test]
-	#[should_panic]
+	#[should_panic = "chunk_bytes_left == 0"]
 	fn test_truncate() {
 		block_on(async {
 			let mut sink = Vec::new();

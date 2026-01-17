@@ -130,7 +130,7 @@ mod test {
 
 	/// Tests sending not enough data before finishing.
 	#[test]
-	#[should_panic]
+	#[should_panic = "remaining == 0"]
 	fn test_truncated() {
 		block_on(async {
 			let mut sink = Vec::new();
@@ -143,7 +143,7 @@ mod test {
 
 	/// Tests sending too much data.
 	#[test]
-	#[should_panic]
+	#[should_panic = "Attempted to write 12 bytes, but Content-Length indicates only 11 should be left to send"]
 	fn test_overflow() {
 		block_on(async {
 			let mut sink = Vec::new();
