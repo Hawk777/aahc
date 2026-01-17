@@ -296,7 +296,7 @@ impl<Socket: AsyncWrite + ?Sized> AsyncWrite for Send<'_, Socket> {
 #[cfg(test)]
 mod test {
 	use super::*;
-	use crate::request::body::test::AsyncWriteExt;
+	use crate::request::body::test::AsyncWriteExt as _;
 	use futures_executor::block_on;
 
 	/// Tests sending a body with one single chunk.
