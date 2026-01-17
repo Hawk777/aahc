@@ -425,11 +425,7 @@ mod test {
 			) -> Poll<Result<usize>> {
 				assert!(!self.already_called);
 				self.already_called = true;
-				Err(std::io::Error::new(
-					std::io::ErrorKind::Other,
-					"Test error message",
-				))
-				.into()
+				Err(std::io::Error::other("Test error message")).into()
 			}
 
 			fn poll_flush(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Result<()>> {
