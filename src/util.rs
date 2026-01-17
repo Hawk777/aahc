@@ -2,9 +2,7 @@ pub mod io;
 
 /// Checks whether a byte is a `tchar` (token character).
 pub fn is_tchar(b: u8) -> bool {
-	(b'A'..=b'Z').contains(&b)
-		|| (b'a'..=b'z').contains(&b)
-		|| (b'0'..=b'9').contains(&b)
+	b.is_ascii_alphanumeric()
 		|| b == b'!'
 		|| b == b'#'
 		|| b == b'$'
