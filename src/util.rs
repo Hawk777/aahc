@@ -62,7 +62,7 @@ pub fn is_request_target(req: &str) -> bool {
 /// Scan the headers and determine whether the `connection` header is present and contains the
 /// `close` option.
 pub fn is_connection_close(headers: &[crate::Header<'_>]) -> bool {
-	for header in headers.iter() {
+	for header in headers {
 		if header.name.eq_ignore_ascii_case("connection") {
 			for mut option in header.value.split(|b| *b == b',') {
 				while option.first() == Some(&b' ') || option.first() == Some(&b'\t') {

@@ -258,7 +258,7 @@ pub async fn receive<'socket, 'headers, Socket: AsyncBufRead + ?Sized>(
 /// * if the value of the `Content-Length` header is too large to represent in a `u64`
 fn get_content_length(resp: &Response<'_>) -> Result<Option<u64>> {
 	let mut ret = None;
-	for header in resp.headers.iter() {
+	for header in resp.headers {
 		if header.name.eq_ignore_ascii_case("content-length") {
 			use crate::error::BadContentLength;
 			if ret.is_some() {
@@ -317,7 +317,7 @@ fn headers_length(buffer: &[u8]) -> Option<usize> {
 /// * if the `Transfer-Encoding` header indicates an encoding other than chunked
 fn is_chunked(resp: &Response<'_>) -> Result<bool> {
 	let mut ret = false;
-	for header in resp.headers.iter() {
+	for header in resp.headers {
 		if header.name.eq_ignore_ascii_case("transfer-encoding") {
 			if ret {
 				return Err(InvalidData::MultipleTransferEncodings.into());

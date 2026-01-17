@@ -76,7 +76,7 @@ pub async fn send<'socket, Socket: futures_io::AsyncWrite + ?Sized>(
 	);
 
 	// Sanity check headers.
-	for header in headers.iter() {
+	for header in headers {
 		// Check header name/value for validity.
 		debug_assert!(
 			is_token(header.name),
@@ -127,7 +127,7 @@ pub async fn send<'socket, Socket: futures_io::AsyncWrite + ?Sized>(
 	socket.as_mut().write_all(b" HTTP/1.1\r\n").await?;
 
 	// Send the headers.
-	for &header in headers.iter() {
+	for &header in headers {
 		socket.as_mut().write_all(header.name.as_bytes()).await?;
 		socket.as_mut().write_all(b":").await?;
 		socket.as_mut().write_all(header.value).await?;
